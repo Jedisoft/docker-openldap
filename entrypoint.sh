@@ -11,7 +11,7 @@ SLAPD_FORCE_RECONFIGURE="${SLAPD_FORCE_RECONFIGURE:-false}"
 
 first_run=true
 
-if [[ -f "/var/lib/ldap/DB_CONFIG" ]]; then 
+if [[ -f "/var/lib/ldap/DB_CONFIG" ]]; then
     first_run=false
 fi
 
@@ -100,8 +100,16 @@ else
 fi
 
 if [[ "$first_run" == "true" ]]; then
-    if [[ -d "/etc/ldap/prepopulate" ]]; then 
-        for file in `ls /etc/ldap/prepopulate/*.ldif`; do
+    if [[ -d "/etc/ldap/prepopulate/schemas" ]]; then
+        for file in `ls /etc/ldap/prepopulate/schemas/*.ldif`; do
+            slapadd -n0 -F /etc/ldap/slapd.d -l "$file"
+        done
+    fi
+fi
+
+if [[ "$first_run" == "true" ]]; then
+    if [[ -d "/etc/ldap/prepopulate/data" ]]; then
+        for file in `ls /etc/ldap/prepopulate/data/*.ldif`; do
             slapadd -F /etc/ldap/slapd.d -l "$file"
         done
     fi
