@@ -87,6 +87,8 @@ EOF
                     sed -i "s/\(olcPPolicyDefault: \)PPOLICY_DN/\1${SLAPD_PPOLICY_DN_PREFIX}$dc_string/g" $file
                 fi
 
+                echo "Added module $file"
+
                 slapmodify -n0 -F /etc/ldap/slapd.d -l "$file"
             done
         done
@@ -107,14 +109,19 @@ if [[ "$first_run" == "true" ]]; then
     fi
 fi
 
-if [[ "$first_run" == "true" ]]; then
-    if [[ -d "/etc/ldap/prepopulate/data" ]]; then
-        for file in `ls /etc/ldap/prepopulate/data/*.ldif`; do
-            slapadd -F /etc/ldap/slapd.d -l "$file"
-        done
-    fi
-fi
+# if [[ "$first_run" == "true" ]]; then
+#     if [[ -d "/etc/ldap/prepopulate/data" ]]; then
+#         for file in `ls /etc/ldap/prepopulate/data/*.ldif`; do
+#             slapadd -F /etc/ldap/slapd.d -l "$file"
+#         done
+#     fi
+# fi
+
+# chown -R openldap:openldap /etc/ldap/slapd.d/ /var/lib/ldap/ /var/run/slapd/
+
+# exec "$@"
 
 chown -R openldap:openldap /etc/ldap/slapd.d/ /var/lib/ldap/ /var/run/slapd/
 
-exec "$@"
+#exec "$@"
+slapd -d 32768 -u openldap -g openldap
