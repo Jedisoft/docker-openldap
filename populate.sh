@@ -2,9 +2,9 @@
 set -e
 first_run=true
 
-if [[ -f "/etc/ldap/ldap_populated" ]]; then
-    first_run=false
-fi
+# if [[ -f "/etc/ldap/ldap_populated" ]]; then
+#     first_run=false
+# fi
 
 # Wait until 'LDAP started and listens on port 389'.
 while [ -z "`netstat -tln | grep 389`" ]; do
