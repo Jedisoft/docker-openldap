@@ -104,7 +104,7 @@ fi
 if [[ "$first_run" == "true" ]]; then
     if [[ -d "/etc/ldap/prepopulate/schemas" ]]; then
         for file in `ls /etc/ldap/prepopulate/schemas/*.ldif`; do
-            slapadd -n0 -F /etc/ldap/slapd.d -l "$file"
+            slapadd -n0 -F /etc/ldap/slapd.d -l "$file" 2>&1
         done
     fi
 fi

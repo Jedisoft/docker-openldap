@@ -26,7 +26,7 @@ if [[ "$first_run" == "true" ]]; then
 	echo "Loading prepopulate data."
 	if [[ -d "/etc/ldap/prepopulate/data/" ]]; then
 		for file in `ls /etc/ldap/prepopulate/data/*.ldif`; do
-			ldapadd -x -D cn=admin$dc_string -w $SLAPD_PASSWORD -f "$file"
+			ldapadd -v -x -D cn=admin$dc_string -w $SLAPD_PASSWORD -f "$file"
 		done
 	fi
 	touch /etc/ldap/ldap_populated
